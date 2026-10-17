@@ -237,6 +237,10 @@ describe("ProvenanceController (e2e)", () => {
       expect(response.headers["content-type"]).toContain("application/json");
       const data = JSON.parse(response.text);
       expect(data.id).toBe(testRecordId);
+      expect(data).not.toHaveProperty("input");
+      expect(data).not.toHaveProperty("output");
+      expect(data).not.toHaveProperty("signature");
+      expect(data).not.toHaveProperty("recordHash");
     });
 
     it("should export record as CSV", async () => {

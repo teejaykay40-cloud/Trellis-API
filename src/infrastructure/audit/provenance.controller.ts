@@ -122,7 +122,7 @@ export class ProvenanceController {
       );
       res.send(csv);
     } else {
-      const json = JSON.stringify(record, null, 2);
+      const json = await this.provenanceService.exportProvenanceRecordToJson(id);
       res.setHeader("Content-Type", "application/json");
       res.setHeader(
         "Content-Disposition",

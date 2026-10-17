@@ -251,6 +251,23 @@ export class ProvenanceService {
     return [headers.join(","), ...rows.map((r) => r.map(csvCell).join(","))].join("\n");
   }
 
+  async exportProvenanceRecordToJson(id: string): Promise<string> {
+    const record = await this.provenanceRepository.findOne({ where: { id } });
+    if (!record) throw new NotFoundException("Provenance record " + id + " not found");
+    return JSON.stringify({
+      id: record.id,
+      agentId: record.agentId,
+      userId: record.userId || "",
+      action: record.action,
+      status: record.status,
+      provider: record.provider || "",
+      providerModel: record.providerModel || "",
+      createdAt: record.createdAt,
+      onChainTxHash: record.onChainTxHash || "",
+      processingDurationMs: record.processingDurationMs ?? "",
+    }, null, 2);
+  }
+
   async exportProvenanceRecordToCsv(id: string): Promise<string> {
     const record = await this.provenanceRepository.findOne({ where: { id } });
     if (!record) throw new NotFoundException(`Provenance record ${id} not found`);
